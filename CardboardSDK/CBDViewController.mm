@@ -175,7 +175,24 @@
 
 - (void)orientationDidChange:(NSNotification *)notification
 {
-    _headTracker->updateDeviceOrientation([UIApplication sharedApplication].statusBarOrientation);
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    switch (orientation)
+    {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            self.vrModeEnabled = YES;
+            break;
+        case UIInterfaceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:
+            self.vrModeEnabled = NO;
+            break;
+        default:
+            NSLog(@"Unknown orientation");
+    }
+
+    _headTracker->updateDeviceOrientation(orientation);
+    // Reset the project matrix so that we adjust to the current orientation.
+    _projectionChanged = YES;
 }
 
 - (BOOL)prefersStatusBarHidden

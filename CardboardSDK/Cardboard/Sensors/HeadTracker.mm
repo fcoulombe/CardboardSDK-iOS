@@ -272,6 +272,18 @@ void HeadTracker::updateDeviceOrientation(UIInterfaceOrientation orientation)
     {
         _displayFromDevice = GetRotateEulerMatrix(0.f, 0.f, -90.f);
     }
+    else if (orientation == UIInterfaceOrientationPortrait)
+    {
+        _displayFromDevice = GetRotateEulerMatrix(0.f, 0.f, 0.f);
+    }
+    else if (orientation == UIInterfaceOrientationPortraitUpsideDown)
+    {
+        _displayFromDevice = GetRotateEulerMatrix(0.f, 0.f, 180.f);
+    }
+    else
+    {
+        NSLog(@"Unknown orientation");
+    }
 }
 
 bool HeadTracker::neckModelEnabled()
